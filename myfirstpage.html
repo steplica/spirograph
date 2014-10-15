@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Spirograph Creator-inator</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <style>
+    html {font-family: 'Open Sans', sans-serif;}
+    #textBoxes{
+    	position: absolute;
+    	top: 50px;
+    	left: 600px;
+    }
+    </style>
+
+	<script src="jquery-1.11.0.min.js"></script>
+    <script type="text/javascript">
+
+	function create(bool){
+		var ctx = document.getElementById("myCanvas").getContext("2d");
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fillRect(0,0,myCanvas.width,myCanvas.height);
+		if(bool){
+			r1.value = String(Math.floor((Math.random() * 150) + 95));
+			r2.value = String(Math.floor((Math.random() * 85) + 75));
+			r3.value = String(Math.floor((Math.random() * 65) + 45));
+			r4.value = String(Math.floor((Math.random() * 75) + 25));
+			i1.value = String(Math.floor((Math.random() * 80) + 20));
+			i2.value = String(Math.floor((Math.random() * 80) + 20));
+			i3.value = String(Math.floor((Math.random() * 80) + 15));
+			i4.value = String(Math.floor((Math.random() * 80) + 15));
+		}
+
+		color = String(Math.floor((Math.random() * 255) + 0));
+		colorMod1 = String(Math.floor(Math.random() * 255));
+		colorMod2 = String(Math.floor(Math.random() * 255));
+		theta = 0;
+		thetaInc = 0.001;
+		skip = 3;
+		if(theta%(1/thetaInc*skip)==0){
+			interval = setInterval(function(){
+				if (theta>=1080*4){
+					clearInterval(interval);
+				} else {
+					color++;
+					theta+=0.001;
+					ctx.fillStyle = "rgb("+((color)%255)+", "+((color+colorMod1)%255)+", "+((color+colorMod2)%255)+")";
+					if(rad1.checked){
+						x = (r1.value-r2.value)*Math.cos(theta) + i2.value*Math.cos((r1.value-r2.value)*theta/5);
+		 				y = (r1.value-r2.value)*Math.sin(theta) - i2.value*Math.sin((r1.value-r2.value)*theta/5);
+						ctx.fillRect(myCanvas.width/2-1+x,myCanvas.height/2-1+y	,1,1);
+					} else if(rad2.checked){
+						x = (r1.value-r2.value)*Math.cos(theta) + i2.value*Math.cos((r1.value-r2.value)*theta/2)
+						+ i3.value*Math.cos((r2.value-r3.value)*theta/2);
+		 				y = (r1.value-r2.value)*Math.sin(theta) - i2.value*Math.sin((r1.value-r2.value)*theta/2)
+		 				- i3.value*Math.sin((r2.value-r3.value)*theta/2);
+						ctx.fillRect(myCanvas.width/2-1+x,myCanvas.height/2-1+y	,1,1);
+					} else {
+						x = (r1.value-r2.value)*Math.cos(theta) + i2.value*Math.cos((r1.value-r2.value)*theta/2)
+						+ i3.value*Math.cos((r2.value-r3.value)*theta/2) + i4.value*Math.cos((r3.value-r4.value)*theta/2);
+		 				y = (r1.value-r2.value)*Math.sin(theta) - i2.value*Math.sin((r1.value-r2.value)*theta/2)
+		 				- i3.value*Math.sin((r2.value-r3.value)*theta/2) - i4.value*Math.sin((r3.value-r4.value)*theta/2);
+						ctx.fillRect(myCanvas.width/2-1+x,myCanvas.height/2-1+y	,1,1);
+					}
+				}
+			}, 1);	
+		}
+	}
+
+
+
+	</script>
+
+</head>
+
+<body>
+
+<h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Spirograph Fabricator</h2>
+
+<canvas id="myCanvas" width="575" height="575" style="border:1px solid #000000;"></canvas>
+<div id="textBoxes">
+	<br>Radius 1: <input id="r1" oninput="create(false)">&nbsp;&nbsp;&nbsp;
+	Rate 1: <input id="i1" oninput="create(false)">
+	<br>Radius 2: <input id="r2" oninput="create(false)">&nbsp;&nbsp;&nbsp;
+	Rate 2: <input id="i2" oninput="create(false)">
+	<br>Radius 3: <input id="r3" oninput="create(false)">&nbsp;&nbsp;&nbsp;
+	Rate 3: <input id="i3" oninput="create(false)">
+	<br>Radius 4: <input id="r4" oninput="create(false)">&nbsp;&nbsp;&nbsp;
+	Rate 4: <input id="i4" oninput="create(false)"></p>
+
+	<p>Complexity: 
+	<input id="rad1" type="radio" onchange="create(false)" name="complexity" checked="checked" value=1> 1 
+	<input id="rad2" type="radio" onchange="create(false)" name="complexity" value=2> 2 
+	<input id="rad3" type="radio" onchange="create(false)" name="complexity" value=3> 3 
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+	<button id="custom" onclick="create(false)">Spawn!</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button id="random" onclick="create(true)">Randomize!</button>
+</div>
+
+
+
+</body>
+
+<script>
+	$(document).ready(function(){
+		$("#textBoxes").css("left",myCanvas.width+25);
+	});
+	create(true);
+</script>
+
+</html>
