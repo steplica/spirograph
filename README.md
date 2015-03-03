@@ -1,4 +1,4 @@
 Spirograph
 ==========
 
-Psychedelic, duuuuuude.
+Beautiful spirographs.
