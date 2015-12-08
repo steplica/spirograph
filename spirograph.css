@@ -1,0 +1,121 @@
+body {
+    background-image: url('./diamond_upholstery.png');
+}
+
+.well {
+    background: white;
+}
+
+h1, h2 {
+    color: steelblue
+}
+
+.navbar-default {
+    background-color: #0C4C6F;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: white;
+}
+
+.navbar-default .navbar-brand {
+    color: white;
+    font-weight: bold;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #99D5F5;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #99D5F5;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #99D5F5;
+}
+
+.fc-past:hover {
+    background: #DDDDDD;
+}
+
+.fc-today:hover {
+    background: #99ff99;
+}
+
+.fc-future:hover {
+    background: #99ff99;
+}
+
+.fc-day {
+    cursor: pointer;
+}
+
+.fc-slats, /*horizontals*/
+.fc-content-skeleton, /*day numbers*/
+.fc-bgevent-skeleton /*events container*/
+{
+    pointer-events: none
+}
+
+/*Turn pointer events back on*/
+.fc-bgevent,
+.fc-event-container {
+    pointer-events: auto; /*events*/
+}
+
+.gray-event {
+    background-color: #DDDDDD;
+    border-color: #DDDDDD;
+    color: #111111;
+}
+
+.glyphicon {
+    top: 0.175em;
+    right: 0.3em;
+}
+
+.fc-day-grid-event .fc-content {
+    cursor: pointer;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 237px;
+    max-width: 350px;
+    overflow-x: hidden;
+}
+
+.dropdown-menu > li > a {
+    text-align: center;
+    color: black;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+    background-color: #EEEEEE;
+    color: black;
+}
+
+.bg-hover{
+    background-color: #DDDDDD;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    float: none;
+}
+
+.modal-footer .btn+.btn {
+    margin-right: 5px;
+}
+
+table.dataTable.display tbody tr:hover {
+    cursor: pointer;
+}
+
+.modal-dialog{
+    overflow-y: initial !important
+}
+.modal-body{
+    height: 355px;
+    overflow-y: auto;
+}
