@@ -2,52 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Steve's Spirograph Generator</title>
+    <title>Spirograph Generator</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.5/lumen/bootstrap.min.css">
-    <link id="css_patient" rel="stylesheet" href="./spirograph.css">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="static/spirograph.css">
 </style>
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-static-top">
-    <div class="container-fluid">
-
-        <!-- Navbar Brand -->
-        <div class="navbar-header">
-            <a class="navbar-brand">Steve Teplica</a>
-        </div>
-
-        <!-- Navbar Items from Left Side-->
-        <ul class="nav navbar-nav">
-            <li><a><span class="glyphicon glyphicon-restart"></span> Spirographs</a></li>
-            <li><a><span class="glyphicon glyphicon-stats"></span> Placeholder</a></li>
-        </ul>
-
-        <!-- Navbar Items from Right Side-->
-        <ul class="nav navbar-nav navbar-right">
-
-            <!-- Account dropdown-->
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-	          <ul class="dropdown-menu">
-	            <li><a href="#">Action</a></li>
-	            <li><a href="#">Another action</a></li>
-	            <li><a href="#">Something else here</a></li>
-	            <li role="separator" class="divider"></li>
-	            <li><a href="#">Separated link</a></li>
-	            <li role="separator" class="divider"></li>
-	            <li><a href="#">One more separated link</a></li>
-	          </ul>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<div class="well col-md-10 col-md-offset-1">
+<br>
+<br>
+<div class="well col-md-8 col-md-offset-2" id="well">
 	<div class="col-md-8">
-		<canvas id="myCanvas" width="660" height="500" style="border:0px solid #000000;"></canvas>
+		<h2 class="center">Spirograph Generator</h2>
+		<canvas id="spirograph"></canvas>
 	</div>
 		<div class="col-md-2">
 			<br>Radius 1: <input id="r1" oninput="create(false)" class="form-control"></div>
@@ -60,21 +28,17 @@
 		<div class="col-md-2">
 			<br>Radius 3: <input id="r3" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
-			<br>Rate 4: <input id="i4" oninput="create(false)" class="form-control"></div>
-		<div class="col-md-2">
-			<br>Radius 4: <input id="r4" oninput="create(false)" class="form-control"></div>
-		<div class="col-md-2">
 			<br>Complexity:
 			<div class="btn-group form-control" role="group">
-			<input id="rad1" type="radio" onchange="create(false)" name="complexity" checked="checked" value=1> 1 
-			<input id="rad2" type="radio" onchange="create(false)" name="complexity" value=2> 2 
-			<input id="rad3" type="radio" onchange="create(false)" name="complexity" value=3> 3 
+				<input id="rad1" type="radio" onchange="create(false)"> 1 
+				<input id="rad2" type="radio" onchange="create(false)"> 2 
 			</div>
 		</div>
 		<div class="col-md-2">
-			<br><button id="custom" onclick="create(false)" class="form-control">Re-Spawn!</button></div>
+			<br><button id="custom" onclick="create(false)" class="form-control btn btn-primary">Re-Spawn!</button></div>
 		<div class="col-md-2">
-			<br><button id="random" onclick="create(true)" class="form-control">Randomize!</button></div>
+			<br><button id="random" onclick="create(true)" class="form-control btn btn-primary">Randomize!</button>
+			<label><i>Keep clicking me for fun!</i></label></div>
 	</div>
 </div>
 
@@ -82,25 +46,37 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
 	$(document).ready(function(){
-		$("#textBoxes").css("left",myCanvas.width+25);
+		width = $('#well').width()/3*2;
+		height = $(window).height()-200;
+
+		$("#spirograph").attr("width", width);
+		$("#spirograph").attr("height", height);
+		$("#rad1").prop("checked", true)
+
+		for(i = 0; i < 50; i++){
+			create(true);
+		}
 	});
-	for(i = 0; i < 50; i++){
-		create(true);
+
+
+	window.onresize = function(){
+        width = $('#well').width()/3*2;
+		height = $(window).height()-200;
+		$("#spirograph").attr("width", width);
+		$("#spirograph").attr("height", height);
 	}
 
 	function create(bool){
-		var can = document.getElementById("myCanvas").getContext("2d");
-		can.fillStyle = "#FFFFFF";
-		can.fillRect(0,0,myCanvas.width,myCanvas.height);
+		var canvas = document.getElementById("spirograph").getContext("2d");
+		canvas.fillStyle = "#F5F5F5";
+		canvas.fillRect(0,0,spirograph.width,spirograph.height);
 
 		if(bool){
 			r1.value = String(Math.floor((Math.random() * 150) + 95));
 			r2.value = String(Math.floor((Math.random() * 85) + 75));
 			r3.value = String(Math.floor((Math.random() * 65) + 45));
-			r4.value = String(Math.floor((Math.random() * 75) + 25));
 			i2.value = String(Math.floor((Math.random() * 80) + 20));
 			i3.value = String(Math.floor((Math.random() * 80) + 15));
-			i4.value = String(Math.floor((Math.random() * 80) + 15));
 		}
 
 		color = String(Math.floor((Math.random() * 255) + 0));
@@ -114,21 +90,17 @@
 			}
 			color++;
 			angle+=0.001;
-			can.fillStyle = "rgb("+((color)%255)+", "+((color+colorMod1)%255)+", "+((color+colorMod2)%255)+")";
+			canvas.fillStyle = "rgb("+((color)%255)+", "+((color+colorMod1)%255)+", "+((color+colorMod2)%255)+")";
 			x = (r1.value-r2.value)*Math.cos(angle) + i2.value*Math.cos((r1.value-r2.value)*angle/2);
  			y = (r1.value-r2.value)*Math.sin(angle) - i2.value*Math.sin((r1.value-r2.value)*angle/2);
-			if(rad2.checked || rad3.checked){
+			if(rad2.checked){
 				x += i3.value*Math.cos((r2.value-r3.value)*angle/2);
  				y -= i3.value*Math.sin((r2.value-r3.value)*angle/2);
 			}
-			if (rad3.checked) {
-				x += i4.value*Math.cos((r3.value-r4.value)*angle/5);
- 				y -= i4.value*Math.sin((r3.value-r4.value)*angle/5);
-			}
-			can.fillRect(myCanvas.width/2-1+x,myCanvas.height/2-1+y	,1,1);
+			canvas.fillRect(spirograph.width/2-1+x,spirograph.height/2-1+y,1,1);
 		}, 1);	
 	}
-</script
+</script>
 
 </body>
 </html>

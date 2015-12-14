@@ -1,0 +1,18 @@
+body {
+    background-color: #66b2ff;
+    background-image: url('../static/background.png');
+}
+
+h1, h2 {
+    color: steelblue;
+}
+
+.well {
+    background-color: #F5F5F5;
+    border: 1px solid #888888;
+}
+
+.center {
+    margin: auto;
+    width: 35%;
+}

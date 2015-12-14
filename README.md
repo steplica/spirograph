@@ -1,4 +1,0 @@
-Spirograph
-==========
-
-Beautiful spirographs.
