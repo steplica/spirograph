@@ -16,3 +16,8 @@ h1, h2 {
     margin: auto;
     width: 35%;
 }
+
+.ui.basic.buttons {
+	background: white !important;
+	width: 100%;
+}

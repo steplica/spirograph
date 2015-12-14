@@ -5,6 +5,7 @@
     <title>Spirograph Generator</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.5/lumen/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.css">
     <link rel="stylesheet" href="static/spirograph.css">
 </style>
 </head>
@@ -18,20 +19,20 @@
 		<canvas id="spirograph"></canvas>
 	</div>
 		<div class="col-md-2">
-			<br>Radius 1: <input id="r1" oninput="create(false)" class="form-control"></div>
+			<br>Radius 1: <input id="radius1" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
-			<br>Rate 2: <input id="i2" oninput="create(false)" class="form-control"></div>
+			<br>Rate 2: <input id="increment2" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
-			<br>Radius 2: <input id="r2" oninput="create(false)" class="form-control"></div>
+			<br>Radius 2: <input id="radius2" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
-			<br>Rate 3: <input id="i3" oninput="create(false)" class="form-control"></div>
+			<br>Rate 3: <input id="increment3" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
-			<br>Radius 3: <input id="r3" oninput="create(false)" class="form-control"></div>
+			<br>Radius 3: <input id="radius3" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
 			<br>Complexity:
-			<div class="btn-group form-control" role="group">
-				<input id="rad1" type="radio" name="rads" onchange="create(false)"> 1 
-				<input id="rad2" type="radio" name="rads" onchange="create(false)"> 2 
+			<div class="ui basic buttons">
+				<div id="complexity1" onclick="sel(1)" data-picked="true" class="ui button">One</div>
+				<div id="complexity2" onclick="sel(2)" data-picked="false" class="ui button">Two</div>
 			</div>
 		</div>
 		<div class="col-md-2">
@@ -44,6 +45,7 @@
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.js"></script>
 <script>
 	$(document).ready(function(){
 		width = $('#well').width()/3*2;
@@ -51,7 +53,6 @@
 
 		$("#spirograph").attr("width", width);
 		$("#spirograph").attr("height", height);
-		$("#rad1").prop("checked", true)
 
 		for(i = 0; i < 50; i++){
 			create(true);
@@ -66,36 +67,51 @@
 		$("#spirograph").attr("height", height);
 	}
 
+	function sel(complexity){
+		if(complexity == 1){
+			$("#complexity1").attr("data-picked", "true");
+			$("#complexity1").attr("class", "ui button active");
+			$("#complexity2").attr("data-picked", "false");
+			$("#complexity2").attr("class", "ui button");
+		} else{
+			$("#complexity1").attr("data-picked", "false");
+			$("#complexity1").attr("class", "ui button");
+			$("#complexity2").attr("data-picked", "true");
+			$("#complexity2").attr("class", "ui button active");
+		}
+		create(false);
+	}
+
 	function create(bool){
 		var canvas = document.getElementById("spirograph").getContext("2d");
 		canvas.fillStyle = "#F5F5F5";
 		canvas.fillRect(0,0,spirograph.width,spirograph.height);
 
 		if(bool){
-			r1.value = String(Math.floor((Math.random() * 150) + 95));
-			r2.value = String(Math.floor((Math.random() * 85) + 75));
-			r3.value = String(Math.floor((Math.random() * 65) + 45));
-			i2.value = String(Math.floor((Math.random() * 80) + 20));
-			i3.value = String(Math.floor((Math.random() * 80) + 15));
+			radius1.value = String(Math.floor((Math.random() * 150) + 95));
+			radius2.value = String(Math.floor((Math.random() * 85) + 75));
+			radius3.value = String(Math.floor((Math.random() * 65) + 45));
+			increment2.value = String(Math.floor((Math.random() * 80) + 20));
+			increment3.value = String(Math.floor((Math.random() * 80) + 15));
 		}
 
 		color = String(Math.floor((Math.random() * 255) + 0));
-		colorMod1 = String(Math.floor(Math.random() * 30));
-		colorMod2 = String(Math.floor(Math.random() * 30));
+		colorRand1 = String(Math.floor(Math.random() * 30));
+		colorRand2 = String(Math.floor(Math.random() * 30));
 		angle = 0;
 
-		interval = setInterval(function(){
-			if (angle>=Math.PI*2){
+		var interval = setInterval(function(){
+			if (angle>=Math.PI*20){
 				clearInterval(interval);
 			}
 			color++;
 			angle+=0.001;
-			canvas.fillStyle = "rgb("+((color)%255)+", "+((color+colorMod1)%255)+", "+((color+colorMod2)%255)+")";
-			x = (r1.value-r2.value)*Math.cos(angle) + i2.value*Math.cos((r1.value-r2.value)*angle/2);
- 			y = (r1.value-r2.value)*Math.sin(angle) - i2.value*Math.sin((r1.value-r2.value)*angle/2);
-			if(rad2.checked){
-				x += i3.value*Math.cos((r2.value-r3.value)*angle/2);
- 				y -= i3.value*Math.sin((r2.value-r3.value)*angle/2);
+			canvas.fillStyle = "rgb("+((color)%255)+", "+((color+colorRand1)%255)+", "+((color+colorRand2)%255)+")";
+			x = (radius1.value-radius2.value)*Math.cos(angle) + increment2.value*Math.cos((radius1.value-radius2.value)*angle/2);
+ 			y = (radius1.value-radius2.value)*Math.sin(angle) - increment2.value*Math.sin((radius1.value-radius2.value)*angle/2);
+			if($("#complexity2").attr("data-picked") == "true"){
+				x += increment3.value*Math.cos((radius2.value-radius3.value)*angle/2);
+ 				y -= increment3.value*Math.sin((radius2.value-radius3.value)*angle/2);
 			}
 			canvas.fillRect(spirograph.width/2-1+x,spirograph.height/2-1+y,1,1);
 		}, 1);	
