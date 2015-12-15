@@ -48,45 +48,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.6/semantic.min.js"></script>
 <script>
 	$(document).ready(function(){
+
+		if($(window).width() <= 1560){
+			console.log("hi");
+			complexity1.innerHTML = '1';
+			complexity2.innerHTML = '2';
+		}
+
 		width = $('#well').width()/3*2;
 		height = $(window).height()-200;
-
-		$("#spirograph").attr("width", width);
-		$("#spirograph").attr("height", height);
+		spirograph.width = width;
+		spirograph.height = height;
 
 		for(i = 0; i < 50; i++){
 			create(true);
 		}
 	});
 
-
 	window.onresize = function(){
         width = $('#well').width()/3*2;
 		height = $(window).height()-200;
-		$("#spirograph").attr("width", width);
-		$("#spirograph").attr("height", height);
+		spirograph.width = width;
+		spirograph.height = height;
 	}
 
 	function sel(complexity){
 		if(complexity == 1){
-			$("#complexity1").attr("data-picked", "true");
 			$("#complexity1").attr("class", "ui button active");
-			$("#complexity2").attr("data-picked", "false");
 			$("#complexity2").attr("class", "ui button");
 		} else{
-			$("#complexity1").attr("data-picked", "false");
 			$("#complexity1").attr("class", "ui button");
-			$("#complexity2").attr("data-picked", "true");
 			$("#complexity2").attr("class", "ui button active");
 		}
 		create(false);
 	}
 
 	function create(bool){
-		var canvas = document.getElementById("spirograph").getContext("2d");
-		canvas.fillStyle = "#F5F5F5";
-		canvas.fillRect(0,0,spirograph.width,spirograph.height);
-
 		if(bool){
 			radius1.value = String(Math.floor((Math.random() * 150) + 95));
 			radius2.value = String(Math.floor((Math.random() * 85) + 75));
@@ -95,26 +92,62 @@
 			increment3.value = String(Math.floor((Math.random() * 80) + 15));
 		}
 
-		color = String(Math.floor((Math.random() * 255) + 0));
-		colorRand1 = String(Math.floor(Math.random() * 30));
-		colorRand2 = String(Math.floor(Math.random() * 30));
-		angle = 0;
+		var canvas = document.getElementById("spirograph").getContext("2d");
 
+		spirograph.width = width;
+		spirograph.height = height;
+
+		// generate boolean-- grayscale or not? (fraction chance, like 1/25)
+		// generate random number of colors, up to 5?
+		// each color is random, eliminate grayscale
+		// Modify width% css for title depending on screen resolution so it doesn't newline
+
+		var color1 = '#'+Math.floor(Math.random()*16777215).toString(16);
+		var color2 = '#'+Math.floor(Math.random()*16777215).toString(16);
+		var color3 = '#'+Math.floor(Math.random()*16777215).toString(16);
+
+		colors = color1.replace("#","").match(/.{1,2}/g);
+		while((colors[0]==colors[1] && colors[0]==colors[2]) || color1.length < 7){
+			color1 = '#'+Math.floor(Math.random()*16777215).toString(16);
+			colors = color1.replace("#","").match(/.{1,2}/g);
+		}
+		colors = color2.replace("#","").match(/.{1,2}/g);
+		while((colors[0]==colors[1] && colors[0]==colors[2]) || color2.length < 7){
+			color2 = '#'+Math.floor(Math.random()*16777215).toString(16);
+			colors = color2.replace("#","").match(/.{1,2}/g);
+		}
+		colors = color3.replace("#","").match(/.{1,2}/g);
+		while((colors[0]==colors[1] && colors[0]==colors[2]) || color3.length < 7){
+			color3 = '#'+Math.floor(Math.random()*16777215).toString(16);
+			colors = color3.replace("#","").match(/.{1,2}/g);
+		}
+
+		var gradient = canvas.createRadialGradient(spirograph.width/2, spirograph.height/2, spirograph.width/16,
+			spirograph.width/2, spirograph.height/2, spirograph.width/2);
+		gradient.addColorStop(0,color1);
+		gradient.addColorStop(0.2,color2);
+		gradient.addColorStop(0.6,color3);
+		canvas.strokeStyle = gradient;
+
+		angle = 0;
 		var interval = setInterval(function(){
-			if (angle>=Math.PI*20){
+			if (angle>=Math.PI*4){
 				clearInterval(interval);
 			}
-			color++;
-			angle+=0.001;
-			canvas.fillStyle = "rgb("+((color)%255)+", "+((color+colorRand1)%255)+", "+((color+colorRand2)%255)+")";
+
+			angle+=0.01;
+			
 			x = (radius1.value-radius2.value)*Math.cos(angle) + increment2.value*Math.cos((radius1.value-radius2.value)*angle/2);
  			y = (radius1.value-radius2.value)*Math.sin(angle) - increment2.value*Math.sin((radius1.value-radius2.value)*angle/2);
-			if($("#complexity2").attr("data-picked") == "true"){
+			if($("#complexity2").attr("class") == "ui button active"){
 				x += increment3.value*Math.cos((radius2.value-radius3.value)*angle/2);
  				y -= increment3.value*Math.sin((radius2.value-radius3.value)*angle/2);
 			}
-			canvas.fillRect(spirograph.width/2-1+x,spirograph.height/2-1+y,1,1);
-		}, 1);	
+			
+			canvas.lineTo(spirograph.width/2-3+x,spirograph.height/2-3+y);
+			canvas.moveTo(spirograph.width/2-3+x,spirograph.height/2-3+y);
+			canvas.stroke();
+		}, 1);
 	}
 </script>
 
