@@ -85,9 +85,9 @@
 
 	function create(bool){
 		if(bool){
-			radius1.value = String(Math.floor((Math.random() * 150) + 95));
-			radius2.value = String(Math.floor((Math.random() * 85) + 75));
-			radius3.value = String(Math.floor((Math.random() * 65) + 45));
+			radius1.value = String(Math.floor((Math.random() * 150) + 50));
+			radius2.value = String(Math.floor((Math.random() * 100) + 55));
+			radius3.value = String(Math.floor((Math.random() * 100) + 45));
 			increment2.value = String(Math.floor((Math.random() * 80) + 20));
 			increment3.value = String(Math.floor((Math.random() * 80) + 15));
 		}
@@ -101,6 +101,8 @@
 		// generate random number of colors, up to 5?
 		// each color is random, eliminate grayscale
 		// Modify width% css for title depending on screen resolution so it doesn't newline
+		// Hide increment boxes depending on selected complexity
+
 
 		var color1 = '#'+Math.floor(Math.random()*16777215).toString(16);
 		var color2 = '#'+Math.floor(Math.random()*16777215).toString(16);
@@ -135,7 +137,7 @@
 				clearInterval(interval);
 			}
 
-			angle+=0.01;
+			angle+=0.005;
 			
 			x = (radius1.value-radius2.value)*Math.cos(angle) + increment2.value*Math.cos((radius1.value-radius2.value)*angle/2);
  			y = (radius1.value-radius2.value)*Math.sin(angle) - increment2.value*Math.sin((radius1.value-radius2.value)*angle/2);
