@@ -24,9 +24,9 @@
 			<br>Rate 2: <input id="increment2" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
 			<br>Radius 2: <input id="radius2" oninput="create(false)" class="form-control"></div>
-		<div class="col-md-2">
+		<div class="col-md-2" id="h1" hidden>
 			<br>Rate 3: <input id="increment3" oninput="create(false)" class="form-control"></div>
-		<div class="col-md-2">
+		<div class="col-md-2" id="h2" hidden>
 			<br>Radius 3: <input id="radius3" oninput="create(false)" class="form-control"></div>
 		<div class="col-md-2">
 			<br>Complexity:
@@ -76,9 +76,13 @@
 		if(complexity == 1){
 			$("#complexity1").attr("class", "ui button active");
 			$("#complexity2").attr("class", "ui button");
+			h1.style.display = 'none';
+			h2.style.display = 'none';
 		} else{
 			$("#complexity1").attr("class", "ui button");
 			$("#complexity2").attr("class", "ui button active");
+			h1.style.display = 'block';
+			h2.style.display = 'block';
 		}
 		create(false);
 	}
