@@ -1,5 +1,5 @@
 # Spirograph
-Generate beautiful spirographs.
+Generate beautiful spirographs. Play with it [here](http://sypherio.github.io/spirograph/)
 
 This is a project I started at HackRU in fall of 2014. It was my first time ever touching HTML, CSS or JavaScript and I wanted to put something together that would show a lot for the effort I put in.
 
